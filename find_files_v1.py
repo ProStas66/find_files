@@ -17,14 +17,14 @@ import subprocess
 
 configfile = 'ff.ini'
 
-parser = configparser.ConfigParser()
-parser.read(configfile)
+conf = configparser.ConfigParser()
+conf.read(configfile)
 
-F_TYPE = parser['file_type']['ft'].split(', ')
-PATH_NAME = parser['path_name']
-host = parser['pathes']['host']
-PATH_N = Path(parser['pathes']['path_n'])
-PATH_X = Path(parser['pathes']['path_x'])
+F_TYPE = conf['file_type']['ft'].split(', ')
+PATH_NAME = conf['path_name']
+host = conf['pathes']['host']
+PATH_N = Path(conf['pathes']['path_n'])
+PATH_X = Path(conf['pathes']['path_x'])
 
 def ping(ip):
 	retcode = subprocess.call('ping -n 1 ' + str(ip))
@@ -199,7 +199,7 @@ class settings:
 		self.f_set.pack(side=BOTTOM, fill=X)
 		self.l_table_name = Label(self.f_set, text="Имя таблмцы")
 		self.l_table_name.pack(side=LEFT)
-		self.combo_table = Combobox(self.f_set, values=self.list_tables())
+		self.combo_table = Combobox(self.f_set, values=[option for option in PATH_NAME])
 		self.combo_table.pack(side=LEFT)
 		self.btn_create_table = Button(self.f_set, text='Создать таблицу', 
 								command=self.create_table)
@@ -267,13 +267,15 @@ class settings:
 			j = [i][0][0]
 			if j != 'sqlite_sequence':
 				values.append(j)
+		if values == []:
+			values = ['нет таблиц']
 		return values
 	
 	def insert_data(self, table, path):
 		zapros = f'INSERT INTO {table} (file, path) values(?, ?)'
 		data = self.walk_dir(path)
 		makets.insert(zapros, data)
-		messagebox.showinfo('Список файлов', 'Данные добавлены, удалите дубликаты записей')
+		messagebox.showinfo('Список файлов', f'В таблицу {table} добавлены данные')
 			
 	def del_copies(self, table):
 		zapros = f"""DELETE FROM {table} 
