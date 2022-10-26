@@ -112,7 +112,7 @@ class main_win:
 	
 	def get_value(self):
 		formats = ('jpg', '.gif', '.png', '.tif', '.psd', '.eps')
-		file_path = 'no_file.jpg'
+		file_path = ''
 		if self.select_row():
 			file_path = self.select_row()[0]
 			path_end = ''
@@ -143,7 +143,7 @@ class main_win:
 		if self.get_value():
 			self.send_value = self.get_value()
 		else:
-			self.send_value = 'no_file.jpg'
+			self.send_value = 'no_image.png'
 		self.thumbnail = preview(self.master, self.poz, self.send_value)
 	
 	def close_prew(self):
