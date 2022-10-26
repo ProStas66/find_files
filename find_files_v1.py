@@ -244,7 +244,7 @@ class settings:
 		for d, dirs, files in tree:
 			for f in files:
 				d = Path(d)
-				below_d = str(d.relative_to(Path(PATH_N)))
+				below_d = str(d.relative_to(PATH_N))
 				para = (f, below_d)
 				ff.append(para)
 		return(ff)
